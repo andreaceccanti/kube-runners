@@ -18,7 +18,9 @@ pipeline {
     stage('prepare'){
       steps {
         checkout scm
-        stash name: "source", include: "./*"
+        script{
+          stash name: "source", include: "./*"
+        }
       }
     }
     
