@@ -1,6 +1,6 @@
 FROM centos:7
 
-ARG JNLP_VERSION=2.62
+ARG JNLP_VERSION=3.7
 ENV DOCKER_GID=992
 
 COPY files/docker.repo /etc/yum.repos.d/docker.repo

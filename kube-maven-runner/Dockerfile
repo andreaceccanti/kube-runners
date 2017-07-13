@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-ARG JNLP_VERSION=2.62
+ARG JNLP_VERSION=3.7
 
 RUN dnf install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel maven git wget gettext rsync && \
     dnf clean all
@@ -11,7 +11,6 @@ RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-c
 
 COPY files/igi-test-ca.pem /etc/pki/ca-trust/source/anchors/
 RUN update-ca-trust
-RUN ln -s /etc/pki/java/cacerts /usr/lib/jvm/jre/lib/security/cacerts
 
 COPY files/jenkins-slave /usr/local/bin/jenkins-slave
 RUN chmod 755 /usr/local/bin/jenkins-slave

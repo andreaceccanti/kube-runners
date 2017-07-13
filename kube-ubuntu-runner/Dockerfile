@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ARG JNLP_VERSION=2.62
+ARG JNLP_VERSION=3.7
 
 RUN apt-get update -y && \
     apt-get install -y openjdk-8-jdk maven git wget curl jq dpkg-dev && \

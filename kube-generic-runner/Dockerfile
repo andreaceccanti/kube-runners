@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-ARG JNLP_VERSION=2.62
+ARG JNLP_VERSION=3.7
 
 RUN dnf install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget gettext rsync unzip jq createrepo repoview rpmdevtools && \
     dnf clean all
