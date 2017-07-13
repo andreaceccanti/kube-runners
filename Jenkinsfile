@@ -98,8 +98,12 @@ pipeline {
             }
           },
           )
-          
-          script { currentBuild.result = 'SUCCESS' }
+      }
+    }
+    
+    stage('result'){
+      steps {
+        script { currentBuild.result = 'SUCCESS' }
       }
     }
   }
