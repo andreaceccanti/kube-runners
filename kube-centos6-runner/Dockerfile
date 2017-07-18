@@ -22,6 +22,8 @@ RUN yum install -y http://repository.egi.eu/sw/production/umd/3/sl6/x86_64/updat
 
 RUN yum install -y \
   automake \
+  libtool \
+  m4 \
   redhat-lsb \
   git \
   wget \
