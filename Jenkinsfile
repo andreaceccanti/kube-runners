@@ -27,6 +27,20 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
+          "kube-centos6-runner" : {
+            node('docker'){
+              unstash "source"
+              dir('kube-centos6-runner'){
+                withEnv([
+                  "TAG=latest",
+                  "JNLP_VERSION=${params.JNLP_VERSION}"
+                ]){
+                  sh "./build-image.sh"
+                  sh "./push-image.sh"
+                }
+              }
+            }
+          },
           "kube-generic-runner" : {
             node('docker'){
               unstash "source"
