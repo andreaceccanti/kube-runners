@@ -55,7 +55,13 @@ RUN yum install -y \
   gcc-c++ \
   storm-xmlrpc-c-devel \
   argus-pep-api-c \
-  argus-pep-api-c-devel
+  argus-pep-api-c-devel \
+  zlib \
+  openssl-devel \
+  libattr-devel \
+  globus-gridftp-server-devel \
+  globus-ftp-control-devel \
+  globus-ftp-client-devel
 
 RUN yum clean all
 
