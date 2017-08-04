@@ -1,3 +1,19 @@
+#!/usr/bin/env groovy
+
+def build_image(image, tag){
+  node('docker'){
+    deleteDir()
+    unstash "source"
+
+    dir("${image}"){
+      withEnv(["TAG=${tag}"]){
+        sh "./build-images.sh"
+        sh "./push-images.sh"
+      }
+    }
+  }
+}
+
 pipeline {
   agent { label 'docker' }
   
@@ -14,103 +30,28 @@ pipeline {
     cron('@daily')
   }
   
+  environment {
+    JNLP_VERSION = "${params.JNLP_VERSION}"
+  }
+  
   stages {
     stage('prepare'){
       steps {
+        deleteDir()
         checkout scm
-        script{
-          stash name: "source", include: "./*"
-        }
+        stash name: "source"
       }
     }
     
     stage('build images'){
       steps {
         parallel(
-          "kube-centos6-runner" : {
-            node('docker'){
-              unstash "source"
-              dir('kube-centos6-runner'){
-                withEnv([
-                  "TAG=latest",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
-          "kube-generic-runner" : {
-            node('docker'){
-              unstash "source"
-              dir('kube-generic-runner'){
-                withEnv([
-                  "TAG=latest",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
-          "kube-docker-runner"  : { 
-            node('docker'){
-              unstash "source"
-              dir('kube-docker-runner'){
-                withEnv([
-                  "TAG=latest",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
-          "kube-kubectl-runner" : { 
-            node('docker'){
-              unstash "source"
-              dir('kube-kubectl-runner'){
-                withEnv([
-                  "TAG=1.6.4",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
-          "kube-maven-runner"   : { 
-            node('docker'){
-              unstash "source"
-              dir('kube-maven-runner'){
-                withEnv([
-                  "TAG=latest",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
-          "kube-ubuntu-runner"  : { 
-            node('docker'){
-              unstash "source"
-              dir('kube-ubuntu-runner'){
-                withEnv([
-                  "TAG=16.04",
-                  "JNLP_VERSION=${params.JNLP_VERSION}"
-                ]){
-                  sh "./build-image.sh"
-                  sh "./push-image.sh"
-                }
-              }
-            }
-          },
+          "kube-centos6-runner" : { build_image("kube-centos6-runner", "latest") },
+          "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
+          "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
+          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.6.4") },
+          "kube-maven-runner"   : { build_image("kube-maven-runner", "latest") },
+          "kube-ubuntu-runner"  : { build_image("kube-ubuntu-runner", "16.04") },
           )
       }
     }
@@ -123,10 +64,6 @@ pipeline {
   }
   
   post{
-    always {
-      deleteDir()  
-    }
-    
     failure {
       slackSend color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Failure (<${env.BUILD_URL}|Open>)"
     }
