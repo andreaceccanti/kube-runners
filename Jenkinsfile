@@ -7,8 +7,8 @@ def build_image(image, tag){
 
     dir("${image}"){
       withEnv(["TAG=${tag}"]){
-        sh "./build-images.sh"
-        sh "./push-images.sh"
+        sh "./build-image.sh"
+        sh "./push-image.sh"
       }
     }
   }
