@@ -3,7 +3,7 @@ FROM centos:7
 ARG JNLP_VERSION=3.7
 
 RUN yum install -y epel-release && \
-	yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget gettext rsync unzip jq createrepo repoview rpmdevtools
+	yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget which gettext rsync unzip jq createrepo repoview rpmdevtools
     
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash && \
 	yum install -y git-lfs && \
