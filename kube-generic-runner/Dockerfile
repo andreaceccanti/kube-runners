@@ -26,8 +26,8 @@ RUN wget -O /tmp/sonar-scanner.zip https://sonarsource.bintray.com/Distribution/
     && echo 'export PATH=$PATH:/opt/sonar-scanner/bin/' >> /etc/bashrc
     
 RUN wget -O /usr/local/bin/nexus-assets-list https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
-    && wget -O /usr/local/bin/nexus-assets-remove https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
-    && wget -O /usr/local/bin/nexus-assets-upload https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
+    && wget -O /usr/local/bin/nexus-assets-remove https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-remove \
+    && wget -O /usr/local/bin/nexus-assets-upload https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-upload \
     && chmod +x /usr/local/bin/nexus-assets-*
 
 ENV HOME /home/jenkins
