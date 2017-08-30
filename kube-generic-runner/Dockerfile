@@ -24,6 +24,11 @@ RUN wget -O /tmp/sonar-scanner.zip https://sonarsource.bintray.com/Distribution/
     && unzip /tmp/sonar-scanner.zip -d /opt \
     && mv /opt/sonar-scanner-2.9.0.670 /opt/sonar-scanner \
     && echo 'export PATH=$PATH:/opt/sonar-scanner/bin/' >> /etc/bashrc
+    
+RUN wget -O /usr/local/bin/nexus-assets-list https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
+    && wget -O /usr/local/bin/nexus-assets-remove https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
+    && wget -O /usr/local/bin/nexus-assets-upload https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-list \
+    && chmod +x /usr/local/bin/nexus-assets-*
 
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins
