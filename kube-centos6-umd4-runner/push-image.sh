@@ -5,7 +5,7 @@ set -xe
 DOCKER_REGISTRY_HOST=${DOCKER_REGISTRY_HOST:-"cloud-vm114.cloud.cnaf.infn.it"}
 TAG=${TAG:-"latest"}
 
-image_name=italiangrid/kube-centos6-runner:$TAG
+image_name=italiangrid/kube-centos6-umd4-runner:$TAG
 dest=${DOCKER_REGISTRY_HOST}/$image_name
 	
 docker tag $image_name $dest
