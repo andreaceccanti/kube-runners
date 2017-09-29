@@ -4,14 +4,16 @@ ARG JNLP_VERSION=3.7
 
 RUN yum install -y http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
 
-RUN yum --enablerepo=centosplus install -y epel-release 
-
 RUN rpm --import http://repository.egi.eu/sw/production/umd/UMD-RPM-PGP-KEY 
 RUN yum install -y http://repository.egi.eu/sw/production/umd/3/sl6/x86_64/updates/umd-release-3.14.4-1.el6.noarch.rpm
 
+RUN yum --disablerepo=*UMD* install -y gsoap-devel
+
+RUN yum --enablerepo=centosplus install -y epel-release 
+
 RUN yum install -y argus-pep-api-c argus-pep-api-c-devel automake boost-devel CGSI-gSOAP-devel createrepo curl-devel \
 	gcc gcc-c++ globus-gssapi-gsi-devel globus-gss-assist-devel globus-common-devel globus-gridmap-callout-error-devel \
-	globus-gsi-credential-devel globus-gridftp-server-devel globus-ftp-control-devel globus-ftp-client-devel gettext git gsoap-devel \
+	globus-gsi-credential-devel globus-gridftp-server-devel globus-ftp-control-devel globus-ftp-client-devel gettext git \
 	java-1.8.0-openjdk java-1.8.0-openjdk-devel jq krb5-devel libuuid-devel libtool libattr-devel libuuid-devel m4 mysql-devel \
 	openssl-devel pkgconfig puppet repoview rpmdevtools rsync redhat-lsb storm-xmlrpc-c-devel wget tar unzip wget voms zlib && \
 	yum clean all
