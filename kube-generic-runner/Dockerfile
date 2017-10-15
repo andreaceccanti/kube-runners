@@ -3,13 +3,10 @@ FROM centos:7
 ARG JNLP_VERSION=3.7
 
 RUN yum install -y epel-release && \
-	yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget which gettext rsync unzip jq createrepo repoview rpmdevtools
+    yum install -y https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm && \
+    yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget which gettext rsync unzip jq createrepo repoview rpmdevtools puppet-agent && \
+    yum clean all
     
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash && \
-	yum install -y git-lfs && \
-	git lfs install && \
-	yum clean all
-
 RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JNLP_VERSION}/remoting-${JNLP_VERSION}.jar \
   && chmod 755 /usr/share/jenkins \
   && chmod 644 /usr/share/jenkins/slave.jar
