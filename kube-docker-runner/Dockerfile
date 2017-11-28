@@ -1,13 +1,14 @@
 FROM centos:7
 
 ARG JNLP_VERSION=3.7
-ENV DOCKER_GID=992
+ARG DOCKER_GID=992
 
-COPY files/docker.repo /etc/yum.repos.d/docker.repo
-RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget gettext rsync docker-engine && \
+RUN yum install -y yum-utils && \
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
+    yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget gettext rsync docker-ce && \
     yum clean all
 
-RUN curl -L "https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+RUN curl -L "https://github.com/docker/compose/releases/download/1.17.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
 
 RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JNLP_VERSION}/remoting-${JNLP_VERSION}.jar \

@@ -1,7 +1,7 @@
 FROM centos:7
 
 ARG JNLP_VERSION=3.7
-ARG KUBE_VERSION=1.6.4
+ARG KUBE_VERSION=1.8.4
 
 RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel git wget gettext rsync && \
     yum clean all
