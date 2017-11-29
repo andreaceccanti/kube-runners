@@ -15,7 +15,7 @@ def build_image(image, tag){
 }
 
 pipeline {
-  agent { label 'docker' }
+  agent none
   
   options {
     timeout(time: 2, unit: 'HOURS')
@@ -27,10 +27,6 @@ pipeline {
     string(name: 'DOCKER_GID', defaultValue: '994', description: 'Docker group ID' )
   }
   
-//  triggers {
-//    cron('@daily')
-//  }
-  
   environment {
     JNLP_VERSION = "${params.JNLP_VERSION}"
     DOCKER_GID = "${params.DOCKER_GID}"
@@ -38,6 +34,7 @@ pipeline {
   
   stages {
     stage('prepare'){
+      agent { label 'generic' }
       steps {
         deleteDir()
         checkout scm
