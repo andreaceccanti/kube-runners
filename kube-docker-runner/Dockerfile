@@ -1,7 +1,7 @@
 FROM centos:7
 
 ARG JNLP_VERSION=3.7
-ARG DOCKER_GID=992
+ARG DOCKER_GID=994
 
 RUN yum install -y yum-utils && \
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \

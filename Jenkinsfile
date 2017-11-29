@@ -24,12 +24,12 @@ pipeline {
   
   parameters {
     string(name: 'JNLP_VERSION', defaultValue: '3.7', description: '' )
-    string(name: 'DOCKER_GID', defaultValue: '992', description: 'Docker group ID' )
+    string(name: 'DOCKER_GID', defaultValue: '994', description: 'Docker group ID' )
   }
   
-  triggers {
-    cron('@daily')
-  }
+//  triggers {
+//    cron('@daily')
+//  }
   
   environment {
     JNLP_VERSION = "${params.JNLP_VERSION}"
@@ -48,8 +48,8 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-          "kube-centos6-umd3-runner" : { build_image("kube-centos6-umd3-runner", "latest") },
-          "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
+//          "kube-centos6-umd3-runner" : { build_image("kube-centos6-umd3-runner", "latest") },
+//          "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
           "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
           "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
           "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.8.4") },
