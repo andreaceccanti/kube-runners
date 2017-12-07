@@ -2,13 +2,15 @@
 
 def build_image(image, tag){
   node('docker'){
-    deleteDir()
-    unstash "source"
+    container('docker-runner'){
+      deleteDir()
+      unstash "source"
 
-    dir("${image}"){
-      withEnv(["TAG=${tag}"]){
-        sh "./build-image.sh"
-        sh "./push-image.sh"
+      dir("${image}"){
+        withEnv(["TAG=${tag}"]){
+          sh "./build-image.sh"
+          sh "./push-image.sh"
+        }
       }
     }
   }
@@ -23,12 +25,10 @@ pipeline {
   }
   
   parameters {
-    string(name: 'JNLP_VERSION', defaultValue: '3.7', description: '' )
     string(name: 'DOCKER_GID', defaultValue: '994', description: 'Docker group ID' )
   }
   
   environment {
-    JNLP_VERSION = "${params.JNLP_VERSION}"
     DOCKER_GID = "${params.DOCKER_GID}"
   }
   
