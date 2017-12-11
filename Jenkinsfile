@@ -3,14 +3,11 @@
 def build_image(image, tag){
   node('docker'){
     container('docker-runner'){
-      deleteDir()
       unstash "source"
 
       dir("${image}"){
-        withEnv(["TAG=${tag}"]){
-          sh "./build-image.sh"
-          sh "./push-image.sh"
-        }
+        sh "TAG=${tag} sh build-image.sh"
+        sh "TAG=${tag} sh push-image.sh"
       }
     }
   }
@@ -30,14 +27,13 @@ pipeline {
   
   environment {
     DOCKER_GID = "${params.DOCKER_GID}"
+    DOCKER_REGISTRY_HOST = "${env.DOCKER_REGISTRY_HOST}"
   }
   
   stages {
     stage('prepare'){
       agent { label 'generic' }
       steps {
-        deleteDir()
-        checkout scm
         stash name: "source"
       }
     }
