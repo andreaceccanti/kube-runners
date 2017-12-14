@@ -41,8 +41,8 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-//          "kube-centos6-umd3-runner" : { build_image("kube-centos6-umd3-runner", "latest") },
-//          "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
+          "kube-centos6-umd3-runner" : { build_image("kube-centos6-umd3-runner", "latest") },
+          "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
           "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
           "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
           "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.8.4") },
