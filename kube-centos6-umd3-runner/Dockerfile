@@ -30,4 +30,4 @@ USER jenkins
 
 WORKDIR /home/jenkins
 
-CMD /usr/bin/cat
+CMD /bin/cat

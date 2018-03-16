@@ -1,13 +1,13 @@
 FROM centos:7
 
-ARG DOCKER_GID=994
+ARG DOCKER_GID=992
 
 RUN yum install -y yum-utils && \
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
     yum install -y git wget gettext rsync docker-ce && \
     yum clean all
 
-RUN curl -L "https://github.com/docker/compose/releases/download/1.17.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+RUN curl -L "https://github.com/docker/compose/releases/download/1.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
 
 ENV HOME /home/jenkins

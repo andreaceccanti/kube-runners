@@ -22,7 +22,7 @@ pipeline {
   }
   
   parameters {
-    string(name: 'DOCKER_GID', defaultValue: '994', description: 'Docker group ID' )
+    string(name: 'DOCKER_GID', defaultValue: '992', description: 'Docker group ID' )
   }
   
   environment {
@@ -45,16 +45,10 @@ pipeline {
           "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
           "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
           "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
-          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.8.4") },
+          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.9.2") },
           "kube-maven-runner"   : { build_image("kube-maven-runner", "latest") },
           "kube-ubuntu-runner"  : { build_image("kube-ubuntu-runner", "16.04") },
           )
-      }
-    }
-    
-    stage('result'){
-      steps {
-        script { currentBuild.result = 'SUCCESS' }
       }
     }
   }
@@ -66,7 +60,7 @@ pipeline {
     
     changed {
       script{
-        if('SUCCESS'.equals(currentBuild.result)) {
+        if('SUCCESS'.equals(currentBuild.currentResult)) {
           slackSend color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Back to normal (<${env.BUILD_URL}|Open>)"
         }
       }
