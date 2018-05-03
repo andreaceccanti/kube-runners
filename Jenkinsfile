@@ -45,7 +45,7 @@ pipeline {
           "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
           "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
           "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
-          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.9.2") },
+          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.10.2") },
           "kube-maven-runner"   : { build_image("kube-maven-runner", "latest") },
           "kube-ubuntu-runner"  : { build_image("kube-ubuntu-runner", "16.04") },
           )

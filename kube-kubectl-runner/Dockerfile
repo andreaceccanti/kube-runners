@@ -1,6 +1,6 @@
 FROM centos:7
 
-ARG KUBE_VERSION=1.9.2
+ARG KUBE_VERSION=1.10.2
 
 RUN yum install -y git wget gettext rsync && \
     yum clean all
