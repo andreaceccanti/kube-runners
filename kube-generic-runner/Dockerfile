@@ -18,6 +18,13 @@ RUN wget -O /usr/local/bin/nexus-assets-list https://raw.githubusercontent.com/m
     && wget -O /usr/local/bin/nexus-assets-upload https://raw.githubusercontent.com/marcocaberletti/scripts/master/bin/nexus-assets-upload \
     && chmod +x /usr/local/bin/nexus-assets-*
 
+RUN wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip -O terraform.zip \
+    && unzip terraform.zip \
+    && rm -f terraform.zip \
+    && mv terraform /usr/local/bin \
+    && chmod +x /usr/local/bin/terraform \
+    && terraform -v
+
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins
 RUN useradd -c "Jenkins user" -d $HOME -u 10000 -g 10000 -m jenkins -s /bin/bash
