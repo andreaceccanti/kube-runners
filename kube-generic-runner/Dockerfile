@@ -25,6 +25,14 @@ RUN wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_
     && chmod +x /usr/local/bin/terraform \
     && terraform -v
 
+RUN yum group install "Development Tools" -y \
+    yum clean all
+
+RUN yum install python-devel python-setuptools python-wheel python-pip -y \
+    yum clean all \
+    && pip install python-openstackclient \
+    && openstack --version
+
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins
 RUN useradd -c "Jenkins user" -d $HOME -u 10000 -g 10000 -m jenkins -s /bin/bash
