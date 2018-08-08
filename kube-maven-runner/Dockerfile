@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-RUN dnf install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel maven git wget gettext rsync curl jq svn && \
+RUN dnf install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel maven git wget gettext rsync curl jq svn procps && \
     dnf clean all
 
 COPY files/igi-test-ca.pem /etc/pki/ca-trust/source/anchors/
