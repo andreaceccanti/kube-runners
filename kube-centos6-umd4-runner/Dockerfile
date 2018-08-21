@@ -18,7 +18,7 @@ RUN yum install -y argus-pep-api-c argus-pep-api-c-devel automake boost-devel CG
 RUN puppet module install --force maestrodev-wget && \
     puppet module install --force puppetlabs-stdlib
 
-RUN wget http://italiangrid.github.io/storm/repo/storm_sl6.repo -O /etc/yum.repos.d/storm_sl6.repo
+RUN wget https://repo.cloud.cnaf.infn.it/repository/storm/stable/storm-stable-centos6.repo -O /etc/yum.repos.d/storm-stable-centos6.repo
 RUN yum install -y storm-xmlrpc-c-devel && yum clean all
 
 COPY files/igi-test-ca.pem /etc/pki/ca-trust/source/anchors/
