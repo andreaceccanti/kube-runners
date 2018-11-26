@@ -16,6 +16,8 @@ def build_image(image, tag){
 pipeline {
   agent none
   
+  triggers { cron('@daily') }
+
   options {
     timeout(time: 2, unit: 'HOURS')
     buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -41,7 +43,6 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-          "kube-centos6-umd4-runner" : { build_image("kube-centos6-umd4-runner", "latest") },
           "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
           "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
           "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.10.2") },
