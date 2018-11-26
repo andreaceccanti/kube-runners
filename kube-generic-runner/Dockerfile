@@ -8,7 +8,7 @@ RUN yum install -y epel-release && \
 COPY files/igi-test-ca.pem /etc/pki/ca-trust/source/anchors/
 RUN update-ca-trust
 
-RUN wget -O /tmp/sonar-scanner.zip https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-2.9.0.670.zip \
+RUN wget -O /tmp/sonar-scanner.zip https://dl.bintray.com/sonarsource/SonarQube/org/sonarsource/scanner/cli/sonar-scanner-cli/2.9.0.670/sonar-scanner-cli-2.9.0.670.zip \
     && unzip /tmp/sonar-scanner.zip -d /opt \
     && mv /opt/sonar-scanner-2.9.0.670 /opt/sonar-scanner \
     && echo 'export PATH=$PATH:/opt/sonar-scanner/bin/' >> /etc/bashrc
