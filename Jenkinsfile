@@ -2,7 +2,7 @@
 
 def build_image(image, tag){
   node('docker'){
-    container('docker-runner'){
+    container('runner'){
       unstash "source"
 
       dir("${image}"){
@@ -43,11 +43,9 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-          "kube-generic-runner" : { build_image("kube-generic-runner", "latest") },
-          "kube-docker-runner"  : { build_image("kube-docker-runner", "latest") },
-          "kube-kubectl-runner" : { build_image("kube-kubectl-runner", "1.10.2") },
-          "kube-maven-runner"   : { build_image("kube-maven-runner", "latest") },
           "kube-ubuntu-runner"  : { build_image("kube-ubuntu-runner", "16.04") },
+          "centos7-runner"  : { build_image("centos7-runner", "latest") },
+          "jnlp-slave"  : { build_image("jnlp-slave", "latest") },
           )
       }
     }
