@@ -1,0 +1,3 @@
+FROM italiangrid/jnlp-agent-alpine:latest
+COPY jenkins-slave /usr/local/bin/jenkins-slave
+ENTRYPOINT ["jenkins-slave"]
