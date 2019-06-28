@@ -1,7 +1,9 @@
 FROM centos:7
 
+ARG MAVEN_VERSION=3.6.1
 ARG DOCKER_GID=992
 ARG KUBE_VERSION=1.10.2
+ARG COMPOSE_VERSION=1.24.0
 
 RUN yum install -y epel-release && \
     yum install -y https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm && \
@@ -36,15 +38,18 @@ RUN yum install python-devel python-setuptools python-wheel python-pip -y \
     && pip install python-openstackclient \
     && openstack --version
 
-# Maven deps
-RUN yum install -y maven 
+# Install recent maven version
+RUN mkdir /opt/maven
+RUN curl -L "http://mirror.nohup.it/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -o /opt/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz  && cd /opt/maven && tar xvzf apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
+      alternatives --install /usr/bin/mvn mvn /opt/maven/apache-maven-${MAVEN_VERSION}/bin/mvn 1 && \
+      alternatives --auto mvn
 
 # Docker & Docker-compose 
 RUN yum install -y yum-utils && \
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
     yum install -y docker-ce && yum clean all
 
-RUN curl -L "https://github.com/docker/compose/releases/download/1.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+RUN curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
 
 # Kubectl

@@ -5,10 +5,13 @@ metadata:
         ci: true
 spec:
     nodeSelector:
-        zone: ci
+        role: worker
     imagePullSecrets:
       - name: cloud-vm114
     volumes:
+      - name: openstack-credentials
+        secret:
+            secretName: mwdevel-clouds-credentials
       - name: docker
         hostPath:
             path: /var/run/docker.sock
@@ -55,6 +58,8 @@ spec:
             mountPath: /srv/scratch
           - name: packages
             mountPath: /mnt/packages
+          - name: openstack-credentials
+            mountPath: /home/jenkins/.config/openstack
         resources:
             requests:
                 memory: 750Mi
