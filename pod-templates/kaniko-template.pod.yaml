@@ -9,9 +9,14 @@ spec:
     imagePullSecrets:
       - name: cloud-vm114
     volumes:
-      - name: registry
-        secret:
-            secretName: registry-auth-basic
+      - name: registry-credentials
+        projected:
+            sources:
+            - secret:
+                name: cloud-vm114-secret
+                items: 
+                - key: .dockerconfigjson
+                  path: .docker/config.json
     containers:
       - name: jnlp
         image: cloud-vm114.cloud.cnaf.infn.it/italiangrid/jnlp-slave-alpine:latest
@@ -24,14 +29,14 @@ spec:
                 memory: 500Mi
                 cpu: 1
       - name: runner
-        image: gcr.io/kaniko-project/executor:latest
+        image: gcr.io/kaniko-project/executor:debug
         imagePullPolicy: Always
         command:
           - /busybox/cat
         tty: true
         volumeMounts:
-          - name: registry
-            mountPath: /home/jenkins/.docker
+          - name: registry-credentials
+            mountPath: /root/
         resources:
             requests:
                 memory: 750Mi

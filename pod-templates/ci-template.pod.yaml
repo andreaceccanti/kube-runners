@@ -35,10 +35,10 @@ spec:
         image: cloud-vm114.cloud.cnaf.infn.it/italiangrid/jnlp-slave-alpine:latest
         resources:
             requests:
-                memory: 500Mi
+                memory: 1Gi
                 cpu: 1
             limits:
-                memory: 500Mi
+                memory: 1Gi
                 cpu: 1
       - name: runner
         image: cloud-vm114.cloud.cnaf.infn.it/italiangrid/centos7-runner:latest
