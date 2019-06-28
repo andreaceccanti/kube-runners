@@ -3,9 +3,7 @@
 def kubeLabel = getKubeLabel()
 
 def build_image(image, tag){
-    container(name: 'runner', shell: '/busybox/sh') {
-      sh "TAG=${tag} /busybox/sh kaniko-build.sh"
-    }
+    sh "TAG=${tag} sh kaniko-build.sh"
 }
 
 pipeline {
@@ -37,9 +35,6 @@ pipeline {
     }
     
     stage('build images'){
-      environment {
-        PATH = "/busybox:/kaniko:$PATH"
-      }
       steps {
         parallel(
           "jnlp-slave"  : { build_image("docker/jnlp-slave", "latest") },
