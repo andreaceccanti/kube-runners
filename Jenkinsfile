@@ -3,8 +3,8 @@
 def kubeLabel = getKubeLabel()
 
 def build_image(image, tag){
-    container(name: 'runner', shell: '/busybox/sh') {
-      sh "TAG=${tag} sh kaniko-build.sh"
+    container(name: 'runner') {
+      sh "TAG=${tag} /busybox/sh kaniko-build.sh"
     }
 }
 
