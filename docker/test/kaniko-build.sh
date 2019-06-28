@@ -4,7 +4,7 @@ set -xe
 IMAGE=${IMAGE:-"kubemwdevel/test"}
 TAG=${TAG:-"latest"}
 
-KANIKO_OPTS=${KANIKO_OPTS:-"--insecure --skip-tls-verify"}
+KANIKO_OPTS=${KANIKO_OPTS:-"--skip-tls-verify"}
 KANIKO_EXECUTOR=${KANIKO_EXECUTOR:-"/kaniko/executor"}
 
 ${KANIKO_EXECUTOR} -f "$(pwd)/Dockerfile" -c "$(pwd)" ${KANIKO_OPTS} \
