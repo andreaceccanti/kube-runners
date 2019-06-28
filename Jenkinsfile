@@ -44,7 +44,8 @@ pipeline {
       steps {
         parallel(
 //          "jnlp-slave"  : { build_image("docker/jnlp-slave", "latest") },
-          "centos7-runner"  : { build_image("docker/centos7-runner", "latest") },
+//          "centos7-runner"  : { build_image("docker/centos7-runner", "latest") },
+          "test"  : { build_image("docker/test", "latest") },
 //          "kube-ubuntu-runner"  : { build_image("docker/kube-ubuntu-runner", "16.04") }
           )
       }

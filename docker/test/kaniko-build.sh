@@ -1,8 +1,9 @@
 #!/busybox/sh
 set -xe
 
+IMAGE=${IMAGE:-"kubemwdevel/test"}
 TAG=${TAG:-"latest"}
-IMAGE=${IMAGE:-"italiangrid/centos7-runner"}
+
 KANIKO_OPTS=${KANIKO_OPTS:-"--insecure --skip-tls-verify"}
 KANIKO_EXECUTOR=${KANIKO_EXECUTOR:-"/kaniko/executor"}
 
