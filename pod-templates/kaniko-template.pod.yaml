@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    labels:
+        kaniko: true
+spec:
+    nodeSelector:
+        role: worker
+    imagePullSecrets:
+      - name: cloud-vm114
+    volumes:
+      - name: registry
+        secret:
+            secretName: registry-auth-basic
+    containers:
+      - name: jnlp
+        image: cloud-vm114.cloud.cnaf.infn.it/italiangrid/jnlp-slave-alpine:latest
+        imagePullPolicy: Always
+        resources:
+            requests:
+                memory: 500Mi
+                cpu: 1
+            limits:
+                memory: 500Mi
+                cpu: 1
+      - name: runner
+        image: gcr.io/kaniko-project/executor:latest
+        imagePullPolicy: Always
+        command:
+          - /busybox/cat
+        tty: true
+        volumeMounts:
+          - name: registry
+            mountPath: /home/jenkins/.docker
+        resources:
+            requests:
+                memory: 750Mi
+                cpu: 1
+            limits:
+                memory: 2Gi
+                cpu: 2

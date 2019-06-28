@@ -1,20 +1,24 @@
 #!/usr/bin/env groovy
+@Library('sd')_
+def kubeLabel = getKubeLabel()
 
 def build_image(image, tag){
-  node('docker'){
-    container('runner'){
-      unstash "source"
+    container(name: 'runner', shell: '/busybox/sh') {
 
-      dir("${image}"){
-        sh "TAG=${tag} sh build-image.sh"
-        sh "TAG=${tag} sh push-image.sh"
-      }
+      
+
     }
-  }
 }
 
 pipeline {
-  agent none
+  agent {
+      kubernetes {
+          label "${kubeLabel}"
+          cloud 'Kube mwdevel'
+          defaultContainer 'runner'
+          inheritFrom 'kaniko-template'
+      }
+  }
   
   triggers { cron('@daily') }
 
@@ -23,18 +27,12 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   
-  parameters {
-    string(name: 'DOCKER_GID', defaultValue: '992', description: 'Docker group ID' )
-  }
-  
   environment {
-    DOCKER_GID = "${params.DOCKER_GID}"
     DOCKER_REGISTRY_HOST = "${env.DOCKER_REGISTRY_HOST}"
   }
   
   stages {
     stage('prepare'){
-      agent { label 'generic' }
       steps {
         stash name: "source"
       }
@@ -43,9 +41,9 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-          "kube-ubuntu-runner"  : { build_image("kube-ubuntu-runner", "16.04") },
-          "centos7-runner"  : { build_image("centos7-runner", "latest") },
-          "jnlp-slave"  : { build_image("jnlp-slave", "latest") },
+          "kube-ubuntu-runner"  : { build_image("docker/kube-ubuntu-runner", "16.04") },
+          "centos7-runner"  : { build_image("docker/centos7-runner", "latest") },
+          "jnlp-slave"  : { build_image("docker/jnlp-slave", "latest") },
           )
       }
     }
