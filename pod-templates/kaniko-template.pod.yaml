@@ -9,6 +9,8 @@ spec:
     imagePullSecrets:
       - name: cloud-vm114
     volumes:
+      - name: helper-scripts
+        emptyDir: {}
       - name: registry-credentials
         projected:
             sources:
@@ -17,6 +19,16 @@ spec:
                 items: 
                 - key: .dockerconfigjson
                   path: .docker/config.json
+    initContainers:
+      - name: fetch-helper-scripts
+        image: alpine/git
+        env:
+            - name: "SCRIPTS_REPO"
+              value: "https://baltig.infn.it/aceccant/helper-scripts.git"
+        command: ['sh', '-c', 'git clone $SCRIPTS_REPO /helper-scripts']
+        volumeMounts:
+            - name: helper-scripts
+              mountPath: /helper-scripts
     containers:
       - name: jnlp
         image: cloud-vm114.cloud.cnaf.infn.it/italiangrid/jnlp-slave-alpine:latest
@@ -34,9 +46,14 @@ spec:
         command:
           - /busybox/cat
         tty: true
+        env:
+            - name: "PATH" 
+              value: "/helper-scripts/scripts:$PATH"
         volumeMounts:
           - name: registry-credentials
             mountPath: /root/
+          - name: helper-scripts
+            mountPath: /helper-scripts
         resources:
             requests:
                 memory: 750Mi

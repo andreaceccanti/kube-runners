@@ -6,7 +6,7 @@ def build_image(image, tag){
     container(name: 'runner', shell: '/busybox/sh') {
         dir (image) {
             sh '''#!/busybox/sh
-            TAG=${tag} sh kaniko-build.sh
+            kaniko-build.sh
             '''
         }
     }
