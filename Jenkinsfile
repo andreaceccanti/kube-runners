@@ -3,7 +3,13 @@
 def kubeLabel = getKubeLabel()
 
 def build_image(image, tag){
-    sh "TAG=${tag} sh kaniko-build.sh"
+    container(name: 'runner', shell: '/busybox/sh') {
+        dir (image) {
+            sh '''#!/busybox/sh
+            TAG=${tag} sh kaniko-build.sh
+            '''
+        }
+    }
 }
 
 pipeline {
@@ -37,8 +43,8 @@ pipeline {
     stage('build images'){
       steps {
         parallel(
-          "jnlp-slave"  : { build_image("docker/jnlp-slave", "latest") },
-//          "centos7-runner"  : { build_image("docker/centos7-runner", "latest") },
+//          "jnlp-slave"  : { build_image("docker/jnlp-slave", "latest") },
+          "centos7-runner"  : { build_image("docker/centos7-runner", "latest") },
 //          "kube-ubuntu-runner"  : { build_image("docker/kube-ubuntu-runner", "16.04") }
           )
       }
